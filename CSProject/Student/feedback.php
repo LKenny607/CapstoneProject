@@ -1,9 +1,45 @@
 <?php
+session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/CSProject/Teacher/Database.php';
+
+$studentID = $_SESSION['student_id'] ?? null;
+
+if (!$studentID) {
+    header("Location: student-dashboard.php");
+    exit();
+}
+
+$stmt = mysqli_prepare($conn, "SELECT * FROM students WHERE id = ?");
+mysqli_stmt_bind_param($stmt, "i", $studentID);
+mysqli_stmt_execute($stmt);
+$student = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+
+if (!$student) {
+    unset($_SESSION['student_id']);
+    header("Location: student-dashboard.php");
+    exit();
+}
+
+// Create the feedback table on first use if it doesn't exist yet.
+mysqli_query($conn, "
+    CREATE TABLE IF NOT EXISTS feedback (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        student_id INT NOT NULL,
+        feedback_text TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+");
+
 $submitted = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // In production: save $_POST['feedback'] to a database.
-    $submitted = true;
+    $text = trim($_POST['feedback'] ?? '');
+    if ($text !== '') {
+        $stmt = mysqli_prepare($conn, "INSERT INTO feedback (student_id, feedback_text) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmt, "is", $studentID, $text);
+        mysqli_stmt_execute($stmt);
+        $submitted = true;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -12,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Feedback - NeuroNet Quest</title>
-  <link rel="stylesheet" href="CSS/style.css">
+  <link rel="stylesheet" href="style.css">
   <style>
     textarea {
         width: 100%;
@@ -50,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="dashboard-wrap">
         <div class="card">
             <h3>Feedback</h3>
-            <p>Tell us what you liked or what felt confusing about NeuroNet Quest.</p>
+            <p>Tell us what you liked or what felt confusing about NeuroNet Quest, <?php echo htmlspecialchars($student['student_name']); ?>.</p>
 
             <?php if ($submitted): ?>
                 <div class="alert">Thanks — your feedback has been recorded.</div>

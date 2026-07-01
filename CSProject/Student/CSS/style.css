@@ -15,6 +15,7 @@
    13. QR Scanner Modal
    14. Student Dashboard
    15. Responsive
+   16. login page
 ===================================================== */
 
 
@@ -618,3 +619,192 @@ p {
         width: 100%;
     }
 }
+
+/* ===========================
+   LOGIN PAGE
+=========================== */
+
+.login-page{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    linear-gradient(rgba(8,12,25,.82),rgba(8,12,25,.82)),
+    url("images/background.jpg");
+
+    background-size:cover;
+    background-position:center;
+}
+
+.login-card{
+
+    width:450px;
+    max-width:90%;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:18px;
+
+    padding:40px;
+
+    position:relative;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+.login-card h1{
+    margin:10px 0;
+}
+
+.eyebrow{
+
+    color:var(--accent);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin-bottom:5px;
+}
+
+.subtitle{
+
+    color:var(--text-muted);
+    margin-bottom:25px;
+}
+
+.login-card label{
+
+    display:block;
+    margin-top:18px;
+    margin-bottom:8px;
+
+    font-weight:600;
+}
+
+.login-card input{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border-light);
+
+    background:var(--bg-light);
+
+    color:white;
+
+    outline:none;
+}
+
+.login-card input:focus{
+
+    border-color:var(--accent);
+}
+
+.btn-primary{
+
+    width:100%;
+
+    margin-top:28px;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(135deg,var(--accent),var(--primary));
+
+    color:#05111d;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+}
+
+.banner{
+
+    padding:14px;
+
+    border-radius:10px;
+
+    margin:20px 0;
+}
+
+.banner-error{
+
+    background:rgba(229,83,75,.12);
+
+    border:1px solid rgba(229,83,75,.4);
+
+    color:#ffb3b3;
+}
+
+.banner-info{
+
+    background:rgba(79,209,197,.12);
+
+    border:1px solid rgba(79,209,197,.35);
+
+    color:var(--accent);
+}
+
+.game-code-pill{
+
+    display:inline-block;
+
+    margin:18px 0;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(79,209,197,.12);
+
+    border:1px solid var(--accent);
+
+    color:var(--accent);
+
+    font-weight:700;
+}
+
+.game-code-pill span{
+
+    margin-left:8px;
+    color:white;
+}
+
+.login-glow{
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    background:var(--accent);
+
+    filter:blur(90px);
+
+    opacity:.15;
+
+    top:-60px;
+    right:-60px;
+
+    pointer-events:none;
+}
+
+
